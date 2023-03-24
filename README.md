@@ -1,4 +1,4 @@
-# leetcode-mnemonic
+# leetcode-chatGPT
 ## LeetCode 心法口诀
 
 这个项目是一个 LeetCode 解法的代码仓库，其中包含了作者用 chatGPT 实现的各种 LeetCode 问题的解法和思路。
