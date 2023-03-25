@@ -43,18 +43,18 @@ def fix_code_block(lang, file_path):
     with open(file_path, 'r') as fr:
         content = fr.read()
 
-        pattern = r'```\n([\s\S]+?)\n```'
-        matches = re.findall(pattern, content)
-
+        pattern = re.compile(r'```(.*?)```', re.DOTALL)
+        matches = pattern.findall(content)
         for match in matches:
-            code = match
-            new_code_block = f'```{lang}\n{code}\n```'
-            content = content.replace(f'```\n{code}\n```', new_code_block)
-
-        if matches:
-            with open(file_path, 'w') as fw:
-                fw.write(content)
-                print(f'Fix {file_path}')
+            if lang not in match and \
+                    not match.startswith('sql') \
+                    and not match.startswith('bash') \
+                    and not match.startswith('mysql'):
+                replacement = f'```{lang}{match}```'
+                content = content.replace(f'```{match}```', replacement)
+                with open(file_path, 'w') as fw:
+                    fw.write(content)
+                    print(f'Fix {file_path}')
 
 
 if __name__ == '__main__':
