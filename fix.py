@@ -45,6 +45,7 @@ def fix_code_block(lang, file_path):
 
         pattern = re.compile(r'```(.*?)```', re.DOTALL)
         matches = pattern.findall(content)
+        need_fix = False
         for match in matches:
             if lang not in match and \
                     not match.startswith('sql') \
@@ -52,9 +53,12 @@ def fix_code_block(lang, file_path):
                     and not match.startswith('mysql'):
                 replacement = f'```{lang}{match}```'
                 content = content.replace(f'```{match}```', replacement)
-                with open(file_path, 'w') as fw:
-                    fw.write(content)
-                    print(f'Fix {file_path}')
+                need_fix = True
+
+        if need_fix:
+            with open(file_path, 'w') as fw:
+                fw.write(content)
+                print(f'Fix {file_path}')
 
 
 if __name__ == '__main__':
