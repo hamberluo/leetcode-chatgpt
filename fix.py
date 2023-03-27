@@ -54,6 +54,8 @@ def fix_code_block(lang, file_path):
                 replacement = f'```{lang}{match}```'
                 content = content.replace(f'```{match}```', replacement)
                 need_fix = True
+        if lang == 'solidity':
+            content = re.sub(r'```\np', '```solidity\np', content)
 
         if need_fix:
             with open(file_path, 'w') as fw:
